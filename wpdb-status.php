@@ -117,8 +117,8 @@ class al_tool {
             echo '<span style="color:red;">' . $posts->num_rows . '</span>';
             echo '</h2>';
 
-            echo 'Empty Post Title:';
-            echo '<pre><code>SELECT ID FROM ' . DB_PREFIX . 'posts WHERE post_content=\'\' AND post_status!=\'auto-draft\' AND (post_type=\'post\' OR post_type=\'page\')</code></pre>';
+            echo 'Empty Post Content:';
+            echo '<pre><code>SELECT ID FROM ' . DB_PREFIX . 'posts WHERE post_content=\'\' AND post_status!=\'draft\' AND post_status!=\'trash\' AND post_status!=\'auto-draft\' AND (post_type=\'post\' OR post_type=\'page\')</code></pre>';
 
             mysqli_close($this->connection);
 		}
