@@ -109,11 +109,11 @@ class al_tool {
             echo '</h2>';
 
             echo 'Empty Post Title:';
-            echo '<pre><code>SELECT ID FROM ' . DB_PREFIX . 'posts WHERE post_title=\'\' AND post_status!=\'auto-draft\' AND (post_type=\'post\' OR post_type=\'page\');</code></pre>';
-            echo '<pre><code>DELETE FROM ' . DB_PREFIX . 'posts WHERE post_title=\'\' AND post_status!=\'auto-draft\' AND (post_type=\'post\' OR post_type=\'page\')</code></pre>';
+            echo '<pre><code>SELECT ID FROM ' . DB_PREFIX . 'posts WHERE post_title=\'\' AND post_status!='draft' AND post_status!='trash' AND post_status!=\'auto-draft\' AND (post_type=\'post\' OR post_type=\'page\');</code></pre>';
+            echo '<pre><code>DELETE FROM ' . DB_PREFIX . 'posts WHERE post_title=\'\' AND post_status!='draft' AND post_status!='trash' AND post_status!=\'auto-draft\' AND (post_type=\'post\' OR post_type=\'page\')</code></pre>';
 
             echo '<h2>WP Post without content: ';
-            $posts = $this->db_query( "SELECT ID FROM " . DB_PREFIX . "posts WHERE post_content='' AND post_status!='auto-draft' AND (post_type='post' OR post_type='page')" );
+            $posts = $this->db_query( "SELECT ID FROM " . DB_PREFIX . "posts WHERE post_content='' AND post_status!='draft' AND post_status!='trash' AND post_status!='auto-draft' AND (post_type='post' OR post_type='page')" );
             echo '<span style="color:red;">' . $posts->num_rows . '</span>';
             echo '</h2>';
 
