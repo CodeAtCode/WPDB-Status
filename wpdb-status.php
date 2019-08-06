@@ -104,7 +104,7 @@ class al_tool {
             echo '<pre><code>wp post delete $(wp post list --post_status=trash --format=ids)</code></pre>';
 
             echo '<h2>WP Post without title: ';
-            $posts = $this->db_query( "SELECT ID FROM " . DB_PREFIX . "posts WHERE post_title='' AND post_status!='auto-draft' AND (post_type='post' OR post_type='page')" );
+            $posts = $this->db_query( "SELECT ID FROM " . DB_PREFIX . "posts WHERE post_title='' AND post_status!='auto-draft' AND post_status!=\'draft\' AND post_status!=\'trash\' AND (post_type='post' OR post_type='page')" );
             echo '<span style="color:red;">' . $posts->num_rows . '</span>';
             echo '</h2>';
 
