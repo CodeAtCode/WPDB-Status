@@ -33,9 +33,6 @@ class al_tool {
 
 	public function __construct() {
 
-		// php 5.4 date timezone requirement, shouldn't affect anything
-		date_default_timezone_set( 'Europe/London' );
-
 		// discover environment
 		if ( $this->is_wordpress() ) {
 
@@ -70,9 +67,8 @@ class al_tool {
 			$this->connection = mysqli_connect( $host, $user, $pass, $name, $port );
 
 			// unset if not available
-            if ( ! $this->connection ) {
-                die( mysqli_connect_error( ));
-                $this->connection = false;
+           if ( ! is_object( $this->connection ) ) {
+                die( mysqli_connect_error() );
             }
 
             echo '<h2>Options in Autoload: ';
@@ -199,13 +195,17 @@ class al_tool {
 	}
 
 	public function autoload_size() {
-        $autoloaded = $this->db_query( "SELECT 'Autoloaded data in KiB' as name, ROUND(SUM(LENGTH(option_value))/ 1024) as value FROM " . DB_PREFIX . "options WHERE autoload='yes' UNION SELECT 'Autoloaded data count', count(*) FROM " . DB_PREFIX . "options WHERE autoload='yes' UNION (SELECT option_name, length(option_value) FROM " . DB_PREFIX . "options WHERE autoload='yes' ORDER BY length(option_value) DESC LIMIT 10)" );
-        while ($row = $autoloaded->fetch_assoc()) { ?>
-        <tr>
-            <td><?php echo $row["name"]; ?></td>
-            <td><?php echo $row["value"]; ?> KB</td>
-        </tr>
-        <?php }
+		$autoloaded = $this->db_query( "SELECT 'Autoloaded data in KiB' as name, ROUND(SUM(LENGTH(option_value))/ 1024) as value FROM " . DB_PREFIX . "options WHERE autoload='yes' UNION SELECT 'Autoloaded data count', count(*) FROM " . DB_PREFIX . "options WHERE autoload='yes' UNION (SELECT option_name, length(option_value) FROM " . DB_PREFIX . "options WHERE autoload='yes' ORDER BY length(option_value) DESC LIMIT 10)" );
+		if ( is_object( $autoloaded ) ) {
+		    while ($row = $autoloaded->fetch_assoc()) { 
+			?>
+			<tr>
+			    <td><?php echo $row["name"]; ?></td>
+			    <td><?php echo $row["value"]; ?> KB</td>
+			</tr>
+			<?php 
+		    }
+		}
 	}
 
 	/**
