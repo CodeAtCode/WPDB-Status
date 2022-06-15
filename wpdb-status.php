@@ -94,6 +94,11 @@ class al_tool {
             echo '<span style="color:red;">' . $session->num_rows . '</span>';
             echo '</h2>';
 
+			echo '<h2>Woocommerce Log: ';
+			$posts = $this->db_query( "SELECT COUNT(*) FROM " . DB_PREFIX . "woocommerce_log" );
+			echo '<span style="color:red;">' . $posts->num_rows . '</span>';
+			echo '</h2>';
+
             echo '<hr><h1>WP Extra</h1>';
 
             echo 'Remember to delete post in trash!';
